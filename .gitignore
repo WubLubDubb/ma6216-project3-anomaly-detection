@@ -13,4 +13,4 @@ mvtec_ad/
 # large experiment artefacts (regenerate with src/run.py)
 results/**/maps.npz
 results/**/*.pt
-slides/
+/slides/
