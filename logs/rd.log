@@ -1,0 +1,62 @@
+== rd / bottle
+  [rd] epoch    0 loss 1.2809
+  [rd] epoch   25 loss 0.1057
+  [rd] epoch   50 loss 0.0848
+  [rd] epoch   75 loss 0.0695
+  [rd] epoch  100 loss 0.0596
+  [rd] epoch  125 loss 0.0520
+  [rd] epoch  150 loss 0.0488
+  [rd] epoch  175 loss 0.0446
+  [rd] epoch  199 loss 0.0418
+{"category": "bottle", "type": "object", "n_test": 83, "n_anom": 63, "threshold": 0.4884, "image_auroc": 1.0, "image_f1": 1.0, "image_f1_max_oracle": 1.0, "pixel_auroc": 0.9871, "au_pro": 0.9635, "seg_iou": 0.6059, "seg_dice": 0.7546, "fpr_on_test_good": 0.0, "recall_on_test_anom": 1.0, "threshold_p95": 0.4066, "image_f1_p95": 0.9692, "fpr_on_test_good_p95": 0.2, "recall_on_test_anom_p95": 1.0, "method": "rd", "n_fit": 178, "n_val": 31, "ms_per_img": 60.238, "peak_gpu_MB": 3949.6069, "fit_time_s": 1027.3713, "n_params_trainable": 83802624}
+== rd / metal_nut
+  [rd] epoch    0 loss 1.2701
+  [rd] epoch   25 loss 0.2122
+  [rd] epoch   50 loss 0.1547
+  [rd] epoch   75 loss 0.1194
+  [rd] epoch  100 loss 0.1024
+  [rd] epoch  125 loss 0.0897
+  [rd] epoch  150 loss 0.0829
+  [rd] epoch  175 loss 0.0754
+  [rd] epoch  199 loss 0.0709
+{"category": "metal_nut", "type": "object", "n_test": 115, "n_anom": 93, "threshold": 0.6403, "image_auroc": 1.0, "image_f1": 0.9836, "image_f1_max_oracle": 1.0, "pixel_auroc": 0.9764, "au_pro": 0.9525, "seg_iou": 0.1781, "seg_dice": 0.3024, "fpr_on_test_good": 0.0, "recall_on_test_anom": 0.9677, "threshold_p95": 0.5488, "image_f1_p95": 1.0, "fpr_on_test_good_p95": 0.0, "recall_on_test_anom_p95": 1.0, "method": "rd", "n_fit": 187, "n_val": 33, "ms_per_img": 32.5041, "peak_gpu_MB": 3986.8569, "fit_time_s": 602.7883, "n_params_trainable": 83802624}
+== rd / screw
+  [rd] epoch    0 loss 1.0628
+  [rd] epoch   25 loss 0.2109
+  [rd] epoch   50 loss 0.1388
+  [rd] epoch   75 loss 0.1101
+  [rd] epoch  100 loss 0.0960
+  [rd] epoch  125 loss 0.0846
+  [rd] epoch  150 loss 0.0747
+  [rd] epoch  175 loss 0.0699
+  [rd] epoch  199 loss 0.0651
+{"category": "screw", "type": "object", "n_test": 160, "n_anom": 119, "threshold": 0.4661, "image_auroc": 0.9891, "image_f1": 0.8218, "image_f1_max_oracle": 0.97, "pixel_auroc": 0.9952, "au_pro": 0.9751, "seg_iou": 0.362, "seg_dice": 0.5316, "fpr_on_test_good": 0.0, "recall_on_test_anom": 0.6975, "threshold_p95": 0.4048, "image_f1_p95": 0.9474, "fpr_on_test_good_p95": 0.0244, "recall_on_test_anom_p95": 0.9076, "method": "rd", "n_fit": 272, "n_val": 48, "ms_per_img": 33.4724, "peak_gpu_MB": 4278.6079, "fit_time_s": 851.8425, "n_params_trainable": 83802624}
+== rd / carpet
+  [rd] epoch    0 loss 1.1424
+  [rd] epoch   25 loss 0.2669
+  [rd] epoch   50 loss 0.2013
+  [rd] epoch   75 loss 0.1665
+  [rd] epoch  100 loss 0.1360
+  [rd] epoch  125 loss 0.1216
+  [rd] epoch  150 loss 0.1066
+  [rd] epoch  175 loss 0.0953
+  [rd] epoch  199 loss 0.0900
+{"category": "carpet", "type": "texture", "n_test": 117, "n_anom": 89, "threshold": 0.3754, "image_auroc": 0.9868, "image_f1": 0.9667, "image_f1_max_oracle": 0.9886, "pixel_auroc": 0.9899, "au_pro": 0.9533, "seg_iou": 0.4119, "seg_dice": 0.5835, "fpr_on_test_good": 0.1429, "recall_on_test_anom": 0.9775, "threshold_p95": 0.3409, "image_f1_p95": 0.9355, "fpr_on_test_good_p95": 0.3571, "recall_on_test_anom_p95": 0.9775, "method": "rd", "n_fit": 238, "n_val": 42, "ms_per_img": 58.8356, "peak_gpu_MB": 4166.6074, "fit_time_s": 743.6324, "n_params_trainable": 83802624}
+== rd / leather
+  [rd] epoch    0 loss 1.1541
+  [rd] epoch   25 loss 0.2768
+  [rd] epoch   50 loss 0.1860
+  [rd] epoch   75 loss 0.1458
+  [rd] epoch  100 loss 0.1237
+  [rd] epoch  125 loss 0.1097
+  [rd] epoch  150 loss 0.0978
+  [rd] epoch  175 loss 0.0903
+  [rd] epoch  199 loss 0.0839
+{"category": "leather", "type": "texture", "n_test": 124, "n_anom": 92, "threshold": 0.339, "image_auroc": 1.0, "image_f1": 0.9946, "image_f1_max_oracle": 1.0, "pixel_auroc": 0.9944, "au_pro": 0.9841, "seg_iou": 0.1648, "seg_dice": 0.283, "fpr_on_test_good": 0.0312, "recall_on_test_anom": 1.0, "threshold_p95": 0.3134, "image_f1_p95": 0.9787, "fpr_on_test_good_p95": 0.125, "recall_on_test_anom_p95": 1.0, "method": "rd", "n_fit": 208, "n_val": 37, "ms_per_img": 52.0844, "peak_gpu_MB": 4051.1074, "fit_time_s": 371.8516, "n_params_trainable": 83802624}
+ category  image_auroc  image_f1  pixel_auroc  au_pro  ms_per_img
+   bottle       1.0000    1.0000       0.9871  0.9635     60.2380
+metal_nut       1.0000    0.9836       0.9764  0.9525     32.5041
+    screw       0.9891    0.8218       0.9952  0.9751     33.4724
+   carpet       0.9868    0.9667       0.9899  0.9533     58.8356
+  leather       1.0000    0.9946       0.9944  0.9841     52.0844
+mean {'image_auroc': 0.9952, 'image_f1': 0.9533, 'pixel_auroc': 0.9886, 'au_pro': 0.9657, 'ms_per_img': 47.4269}

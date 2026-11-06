@@ -1,0 +1,64 @@
+{
+  "method": "patchcore_wrn50",
+  "n_fit": 178,
+  "n_val": 31,
+  "ms_per_img": 54.047357605164315,
+  "peak_gpu_MB": 2672.59228515625,
+  "fit_time_s": 153.0716679096222,
+  "bank_size": 18227,
+  "n_patches_total": 182272,
+  "feat_dim": 1536,
+  "bank_MB": 106.798828125,
+  "grid": [
+    32,
+    32
+  ],
+  "category": "bottle",
+  "type": "object",
+  "n_test": 83,
+  "n_anom": 63,
+  "threshold": 1.586820363998413,
+  "image_auroc": 1.0,
+  "image_f1": 1.0,
+  "image_f1_max_oracle": 1.0,
+  "pixel_auroc": 0.9870815801724074,
+  "au_pro": 0.9472801999899083,
+  "seg_iou": 0.47737513211488897,
+  "seg_dice": 0.6462476885359751,
+  "fpr_on_test_good": 0.0,
+  "recall_on_test_anom": 1.0,
+  "threshold_p95": 1.3863402605056763,
+  "image_f1_p95": 0.9618320610687023,
+  "fpr_on_test_good_p95": 0.25,
+  "recall_on_test_anom_p95": 1.0,
+  "postproc": {
+    "sigma": 4.0,
+    "score": "max",
+    "fg_mask": false
+  },
+  "args": {
+    "method": "patchcore",
+    "tag": "patchcore_wrn50",
+    "cats": [
+      "bottle",
+      "metal_nut",
+      "screw",
+      "carpet",
+      "leather"
+    ],
+    "size": 256,
+    "sigma": 4.0,
+    "score": "max",
+    "epochs": 300,
+    "z_dim": 256,
+    "no_aug": false,
+    "backbone": "wrn50",
+    "layers": [
+      2,
+      3
+    ],
+    "coreset": 0.1,
+    "dino_arch": "vit_base_patch14_dinov2.lvd142m",
+    "dino_size": 448
+  }
+}

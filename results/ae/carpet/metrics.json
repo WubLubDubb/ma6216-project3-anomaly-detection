@@ -1,0 +1,57 @@
+{
+  "method": "ae",
+  "n_fit": 238,
+  "n_val": 42,
+  "ms_per_img": 72.75091073451898,
+  "peak_gpu_MB": 1210.4130859375,
+  "fit_time_s": 704.4722683429718,
+  "n_params": 14045571,
+  "category": "carpet",
+  "type": "texture",
+  "n_test": 117,
+  "n_anom": 89,
+  "threshold": 1.4507168531417847,
+  "image_auroc": 0.6621187800963082,
+  "image_f1": 0.022222222222222223,
+  "image_f1_max_oracle": 0.8682926829268294,
+  "pixel_auroc": 0.6980754975533934,
+  "au_pro": 0.21585817237627333,
+  "seg_iou": 0.0,
+  "seg_dice": 0.0,
+  "fpr_on_test_good": 0.0,
+  "recall_on_test_anom": 0.011235955056179775,
+  "threshold_p95": 1.3886630535125732,
+  "image_f1_p95": 0.16326530612244897,
+  "fpr_on_test_good_p95": 0.03571428571428571,
+  "recall_on_test_anom_p95": 0.0898876404494382,
+  "postproc": {
+    "sigma": 4.0,
+    "score": "max",
+    "fg_mask": false
+  },
+  "args": {
+    "method": "ae",
+    "tag": "ae",
+    "cats": [
+      "bottle",
+      "metal_nut",
+      "screw",
+      "carpet",
+      "leather"
+    ],
+    "size": 256,
+    "sigma": 4.0,
+    "score": "max",
+    "epochs": 300,
+    "z_dim": 256,
+    "no_aug": false,
+    "backbone": "wrn50",
+    "layers": [
+      2,
+      3
+    ],
+    "coreset": 0.1,
+    "dino_arch": "vit_base_patch14_dinov2.lvd142m",
+    "dino_size": 448
+  }
+}

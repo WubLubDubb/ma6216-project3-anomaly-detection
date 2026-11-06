@@ -1,0 +1,36 @@
+{
+  "category": "screw",
+  "type": "object",
+  "n_test": 160,
+  "n_anom": 119,
+  "threshold": 1.8727209568023682,
+  "image_auroc": 0.935642549702808,
+  "image_f1": 0.8767123287671232,
+  "image_f1_max_oracle": 0.9260700389105059,
+  "pixel_auroc": 0.9894258393626593,
+  "au_pro": 0.9268935771913094,
+  "seg_iou": 0.24374071635300062,
+  "seg_dice": 0.39194779610933267,
+  "fpr_on_test_good": 0.0975609756097561,
+  "recall_on_test_anom": 0.8067226890756303,
+  "threshold_p95": 0.2418498992919922,
+  "image_f1_p95": 0.9047619047619048,
+  "fpr_on_test_good_p95": 0.4634146341463415,
+  "recall_on_test_anom_p95": 0.957983193277311,
+  "method": "fusion_wrn50_dinov2",
+  "fused_from": [
+    "patchcore_wrn50",
+    "patchcore_dinov2"
+  ],
+  "ms_per_img": 218.42998415231705,
+  "args": {
+    "tags": [
+      "patchcore_wrn50",
+      "patchcore_dinov2"
+    ],
+    "out": "fusion_wrn50_dinov2",
+    "sigma": 4.0,
+    "size": 256,
+    "sigma_applied_before_fusion": 4.0
+  }
+}

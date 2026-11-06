@@ -1,0 +1,18 @@
+== patchcore_dinov2 / bottle
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+{"category": "bottle", "type": "object", "n_test": 83, "n_anom": 63, "threshold": 31.878, "image_auroc": 1.0, "image_f1": 0.9921, "image_f1_max_oracle": 1.0, "pixel_auroc": 0.9917, "au_pro": 0.9623, "seg_iou": 0.5344, "seg_dice": 0.6966, "fpr_on_test_good": 0.05, "recall_on_test_anom": 1.0, "method": "patchcore_dinov2", "n_fit": 178, "n_val": 31, "ms_per_img": 157.7698, "peak_gpu_MB": 2744.8945, "fit_time_s": 219.0728, "bank_size": 18227, "n_patches_total": 182272, "feat_dim": 1536, "bank_MB": 106.7988, "grid": [32, 32]}
+== patchcore_dinov2 / metal_nut
+{"category": "metal_nut", "type": "object", "n_test": 115, "n_anom": 93, "threshold": 40.5271, "image_auroc": 1.0, "image_f1": 1.0, "image_f1_max_oracle": 1.0, "pixel_auroc": 0.9858, "au_pro": 0.9507, "seg_iou": 0.6709, "seg_dice": 0.803, "fpr_on_test_good": 0.0, "recall_on_test_anom": 1.0, "method": "patchcore_dinov2", "n_fit": 187, "n_val": 33, "ms_per_img": 146.4844, "peak_gpu_MB": 2866.293, "fit_time_s": 240.4924, "bank_size": 19148, "n_patches_total": 191488, "feat_dim": 1536, "bank_MB": 112.1953, "grid": [32, 32]}
+== patchcore_dinov2 / screw
+{"category": "screw", "type": "object", "n_test": 160, "n_anom": 119, "threshold": 34.8854, "image_auroc": 0.859, "image_f1": 0.7707, "image_f1_max_oracle": 0.9004, "pixel_auroc": 0.9715, "au_pro": 0.8493, "seg_iou": 0.2346, "seg_dice": 0.38, "fpr_on_test_good": 0.1707, "recall_on_test_anom": 0.6639, "method": "patchcore_dinov2", "n_fit": 272, "n_val": 48, "ms_per_img": 142.427, "peak_gpu_MB": 4017.5459, "fit_time_s": 502.1877, "bank_size": 27852, "n_patches_total": 278528, "feat_dim": 1536, "bank_MB": 163.1953, "grid": [32, 32]}
+== patchcore_dinov2 / carpet
+{"category": "carpet", "type": "texture", "n_test": 117, "n_anom": 89, "threshold": 41.2273, "image_auroc": 1.0, "image_f1": 1.0, "image_f1_max_oracle": 1.0, "pixel_auroc": 0.9963, "au_pro": 0.9819, "seg_iou": 0.4092, "seg_dice": 0.5808, "fpr_on_test_good": 0.0, "recall_on_test_anom": 1.0, "method": "patchcore_dinov2", "n_fit": 238, "n_val": 42, "ms_per_img": 223.6615, "peak_gpu_MB": 3555.7891, "fit_time_s": 467.4957, "bank_size": 24371, "n_patches_total": 243712, "feat_dim": 1536, "bank_MB": 142.7988, "grid": [32, 32]}
+== patchcore_dinov2 / leather
+{"category": "leather", "type": "texture", "n_test": 124, "n_anom": 92, "threshold": 40.4038, "image_auroc": 1.0, "image_f1": 1.0, "image_f1_max_oracle": 1.0, "pixel_auroc": 0.9919, "au_pro": 0.9736, "seg_iou": 0.0986, "seg_dice": 0.1794, "fpr_on_test_good": 0.0, "recall_on_test_anom": 1.0, "method": "patchcore_dinov2", "n_fit": 208, "n_val": 37, "ms_per_img": 215.4088, "peak_gpu_MB": 3150.2031, "fit_time_s": 376.6979, "bank_size": 21299, "n_patches_total": 212992, "feat_dim": 1536, "bank_MB": 124.7988, "grid": [32, 32]}
+ category  image_auroc  image_f1  pixel_auroc  au_pro  ms_per_img
+   bottle        1.000    0.9921       0.9917  0.9623    157.7698
+metal_nut        1.000    1.0000       0.9858  0.9507    146.4844
+    screw        0.859    0.7707       0.9715  0.8493    142.4270
+   carpet        1.000    1.0000       0.9963  0.9819    223.6615
+  leather        1.000    1.0000       0.9919  0.9736    215.4088
+mean {'image_auroc': 0.9718, 'image_f1': 0.9526, 'pixel_auroc': 0.9874, 'au_pro': 0.9435, 'ms_per_img': 177.1503}

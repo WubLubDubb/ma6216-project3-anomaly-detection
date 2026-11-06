@@ -1,0 +1,38 @@
+{
+  "category": "metal_nut",
+  "type": "object",
+  "n_test": 115,
+  "n_anom": 93,
+  "threshold": 2.166170835494995,
+  "image_auroc": 1.0,
+  "image_f1": 1.0,
+  "image_f1_max_oracle": 1.0,
+  "pixel_auroc": 0.9867806562369117,
+  "au_pro": 0.9379604969708812,
+  "seg_iou": 0.7309261557635499,
+  "seg_dice": 0.8445492065964214,
+  "fpr_on_test_good": 0.0,
+  "recall_on_test_anom": 1.0,
+  "threshold_p95": 0.9059723615646362,
+  "image_f1_p95": 0.9893617021276596,
+  "fpr_on_test_good_p95": 0.09090909090909091,
+  "recall_on_test_anom_p95": 1.0,
+  "method": "fusion_rd_wrn320_dinov2_fg",
+  "fused_from": [
+    "rd_fg",
+    "patchcore_wrn50_320_fg",
+    "patchcore_dinov2_fg"
+  ],
+  "ms_per_img": 255.67710917928946,
+  "args": {
+    "tags": [
+      "rd_fg",
+      "patchcore_wrn50_320_fg",
+      "patchcore_dinov2_fg"
+    ],
+    "out": "fusion_rd_wrn320_dinov2_fg",
+    "sigma": 4.0,
+    "size": 256,
+    "sigma_applied_before_fusion": 4.0
+  }
+}

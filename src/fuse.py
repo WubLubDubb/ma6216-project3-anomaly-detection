@@ -19,7 +19,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(__file__))
-from data import list_split  # noqa: E402
+from data import list_split, rel  # noqa: E402
 from run import RESULTS, evaluate, image_scores, smooth  # noqa: E402
 
 
@@ -52,7 +52,7 @@ def main():
         os.makedirs(d, exist_ok=True)
         np.savez_compressed(os.path.join(d, "maps.npz"), test=tm.astype(np.float16),
                             val_raw=zv.astype(np.float16), test_raw=zt.astype(np.float16))
-        pd.DataFrame({"path": [s.path for s in test], "label": [s.label for s in test],
+        pd.DataFrame({"path": [rel(s.path) for s in test], "label": [s.label for s in test],
                       "defect": [s.defect for s in test], "score": ts,
                       "pred": (ts >= res["threshold"]).astype(int)}).to_csv(os.path.join(d, "scores.csv"), index=False)
         json.dump({**res, "args": {**vars(args), "sigma_applied_before_fusion": args.sigma}},

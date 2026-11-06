@@ -1,0 +1,36 @@
+{
+  "category": "leather",
+  "type": "texture",
+  "n_test": 124,
+  "n_anom": 92,
+  "threshold": 1.3925542831420898,
+  "image_auroc": 1.0,
+  "image_f1": 0.9533678756476683,
+  "image_f1_max_oracle": 1.0,
+  "pixel_auroc": 0.9931531163491445,
+  "au_pro": 0.9730528243974966,
+  "seg_iou": 0.043855699634730023,
+  "seg_dice": 0.08402636427635769,
+  "fpr_on_test_good": 0.28125,
+  "recall_on_test_anom": 1.0,
+  "threshold_p95": 0.5548079013824463,
+  "image_f1_p95": 0.8975609756097561,
+  "fpr_on_test_good_p95": 0.65625,
+  "recall_on_test_anom_p95": 1.0,
+  "method": "fusion_wrn50_dinov2_fg",
+  "fused_from": [
+    "patchcore_wrn50_fg",
+    "patchcore_dinov2_fg"
+  ],
+  "ms_per_img": 313.62962915051367,
+  "args": {
+    "tags": [
+      "patchcore_wrn50_fg",
+      "patchcore_dinov2_fg"
+    ],
+    "out": "fusion_wrn50_dinov2_fg",
+    "sigma": 4.0,
+    "size": 256,
+    "sigma_applied_before_fusion": 4.0
+  }
+}

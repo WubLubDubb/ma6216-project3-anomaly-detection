@@ -53,6 +53,11 @@ def list_split(category: str, val_frac: float = 0.15, seed: int = 0):
     return fit, val, test
 
 
+def rel(path: str) -> str:
+    """Path relative to the dataset root (machine-independent, used in saved CSVs)."""
+    return os.path.relpath(path, DATA_ROOT)
+
+
 def load_image(path: str, size: int) -> np.ndarray:
     """RGB float32 in [0,1], HxWx3, resized to size x size (whole image kept, no crop,
     so defects near the border are not cut away)."""

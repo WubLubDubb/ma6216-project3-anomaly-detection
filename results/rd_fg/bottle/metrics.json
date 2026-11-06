@@ -1,0 +1,58 @@
+{
+  "method": "rd_fg",
+  "n_fit": 178,
+  "n_val": 31,
+  "ms_per_img": 60.238031019647444,
+  "peak_gpu_MB": 3949.60693359375,
+  "fit_time_s": 1027.3713121414185,
+  "n_params_trainable": 83802624,
+  "postproc": {
+    "sigma": 4.0,
+    "score": "max",
+    "fg_mask": true
+  },
+  "category": "bottle",
+  "type": "object",
+  "n_test": 83,
+  "n_anom": 63,
+  "threshold": 0.48843979835510254,
+  "image_auroc": 1.0,
+  "image_f1": 1.0,
+  "image_f1_max_oracle": 1.0,
+  "pixel_auroc": 0.9872627379226374,
+  "au_pro": 0.9639755801385469,
+  "seg_iou": 0.6080435444430259,
+  "seg_dice": 0.7562525860002535,
+  "fpr_on_test_good": 0.0,
+  "recall_on_test_anom": 1.0,
+  "threshold_p95": 0.4065663814544678,
+  "image_f1_p95": 0.9692307692307692,
+  "fpr_on_test_good_p95": 0.2,
+  "recall_on_test_anom_p95": 1.0,
+  "args": {
+    "method": "rd",
+    "tag": "rd",
+    "cats": [
+      "bottle",
+      "metal_nut",
+      "screw",
+      "carpet",
+      "leather"
+    ],
+    "size": 256,
+    "sigma": 4.0,
+    "score": "max",
+    "epochs": 200,
+    "z_dim": 256,
+    "no_aug": false,
+    "backbone": "wrn50",
+    "layers": [
+      2,
+      3
+    ],
+    "coreset": 0.1,
+    "pc_input": 256,
+    "dino_arch": "vit_base_patch14_dinov2.lvd142m",
+    "dino_size": 448
+  }
+}

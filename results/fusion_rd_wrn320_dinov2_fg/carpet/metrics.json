@@ -1,0 +1,38 @@
+{
+  "category": "carpet",
+  "type": "texture",
+  "n_test": 117,
+  "n_anom": 89,
+  "threshold": 1.4674277305603027,
+  "image_auroc": 0.9995987158908507,
+  "image_f1": 0.956989247311828,
+  "image_f1_max_oracle": 0.9944134078212291,
+  "pixel_auroc": 0.9936706896453763,
+  "au_pro": 0.9727999190172036,
+  "seg_iou": 0.24229532279838006,
+  "seg_dice": 0.39007684944444354,
+  "fpr_on_test_good": 0.2857142857142857,
+  "recall_on_test_anom": 1.0,
+  "threshold_p95": 0.8223307132720947,
+  "image_f1_p95": 0.9417989417989417,
+  "fpr_on_test_good_p95": 0.39285714285714285,
+  "recall_on_test_anom_p95": 1.0,
+  "method": "fusion_rd_wrn320_dinov2_fg",
+  "fused_from": [
+    "rd_fg",
+    "patchcore_wrn50_320_fg",
+    "patchcore_dinov2_fg"
+  ],
+  "ms_per_img": 396.13826865823864,
+  "args": {
+    "tags": [
+      "rd_fg",
+      "patchcore_wrn50_320_fg",
+      "patchcore_dinov2_fg"
+    ],
+    "out": "fusion_rd_wrn320_dinov2_fg",
+    "sigma": 4.0,
+    "size": 256,
+    "sigma_applied_before_fusion": 4.0
+  }
+}

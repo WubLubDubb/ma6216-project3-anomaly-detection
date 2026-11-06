@@ -1,0 +1,38 @@
+{
+  "category": "bottle",
+  "type": "object",
+  "n_test": 83,
+  "n_anom": 63,
+  "threshold": 1.8869417905807495,
+  "image_auroc": 1.0,
+  "image_f1": 0.9921259842519685,
+  "image_f1_max_oracle": 1.0,
+  "pixel_auroc": 0.9910373673917029,
+  "au_pro": 0.9667185044110793,
+  "seg_iou": 0.5558459282489074,
+  "seg_dice": 0.7145256714133742,
+  "fpr_on_test_good": 0.05,
+  "recall_on_test_anom": 1.0,
+  "threshold_p95": 0.9680297374725342,
+  "image_f1_p95": 0.9767441860465116,
+  "fpr_on_test_good_p95": 0.15,
+  "recall_on_test_anom_p95": 1.0,
+  "method": "fusion_rd_wrn320_dinov2_fg",
+  "fused_from": [
+    "rd_fg",
+    "patchcore_wrn50_320_fg",
+    "patchcore_dinov2_fg"
+  ],
+  "ms_per_img": 343.06675554758095,
+  "args": {
+    "tags": [
+      "rd_fg",
+      "patchcore_wrn50_320_fg",
+      "patchcore_dinov2_fg"
+    ],
+    "out": "fusion_rd_wrn320_dinov2_fg",
+    "sigma": 4.0,
+    "size": 256,
+    "sigma_applied_before_fusion": 4.0
+  }
+}

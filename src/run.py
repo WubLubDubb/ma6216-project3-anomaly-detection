@@ -23,7 +23,7 @@ import torch
 from scipy.ndimage import gaussian_filter
 
 sys.path.insert(0, os.path.dirname(__file__))
-from data import OBJECTS, list_split, load_mask  # noqa: E402
+from data import OBJECTS, list_split, load_mask, rel  # noqa: E402
 import metrics as M  # noqa: E402
 
 RESULTS = os.path.join(os.path.dirname(__file__), "..", "results")
@@ -134,7 +134,7 @@ def main():
         os.makedirs(cdir, exist_ok=True)
         np.savez_compressed(os.path.join(cdir, "maps.npz"), test=tm.astype(np.float16),
                             val_raw=val_maps.astype(np.float16), test_raw=test_maps.astype(np.float16))
-        pd.DataFrame({"path": [s.path for s in test], "label": [s.label for s in test],
+        pd.DataFrame({"path": [rel(s.path) for s in test], "label": [s.label for s in test],
                       "defect": [s.defect for s in test], "score": ts,
                       "pred": (ts >= res["threshold"]).astype(int)}).to_csv(os.path.join(cdir, "scores.csv"), index=False)
         with open(os.path.join(cdir, "metrics.json"), "w") as f:

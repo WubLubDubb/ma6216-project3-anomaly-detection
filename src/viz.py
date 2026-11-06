@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 
@@ -58,8 +59,9 @@ def summary_table(tags, names, out):
             ax.bar(np.arange(len(CATS)) + (j - (len(names) - 1) / 2) * w, v, w, label=n, color=colors[j % 5])
         ax.set_xticks(range(len(CATS)), CATS, fontsize=8); ax.set_title(title, fontsize=10)
         ax.set_ylim(0.4 if k != "au_pro" else 0.0, 1.0); ax.grid(axis="y", alpha=.3)
-    axes[0].legend(fontsize=7, loc="lower left")
-    fig.tight_layout(); fig.savefig(os.path.join(out, "bar_metrics.png")); plt.close(fig)
+    h, lab = axes[0].get_legend_handles_labels()
+    fig.legend(h, lab, loc="upper center", ncol=len(names), fontsize=8, frameon=False)
+    fig.tight_layout(rect=(0, 0, 1, 0.92)); fig.savefig(os.path.join(out, "bar_metrics.png")); plt.close(fig)
     return df
 
 
@@ -84,13 +86,20 @@ def per_defect_table(tags, names, out):
     return df
 
 
+def val_maps(tag, cat):
+    """Validation-normal maps exactly as used for the threshold (fused tags are stored already smoothed)."""
+    from run import smooth
+    v = np.load(os.path.join(R, tag, cat, "maps.npz"))["val_raw"].astype(np.float32)
+    met = json.load(open(os.path.join(R, tag, cat, "metrics.json")))
+    return v if "fused_from" in met else smooth(v, 4.0)
+
+
 def score_hists(tag, name, out):
+    from run import image_scores
     fig, axes = plt.subplots(1, len(CATS), figsize=(3 * len(CATS), 2.6), dpi=150)
     for ax, c in zip(axes, CATS):
         sc, _, met = load(tag, c)
-        vs = np.load(os.path.join(R, tag, c, "maps.npz"))["val_raw"]
-        from run import smooth, image_scores
-        vsc = image_scores(smooth(vs.astype(np.float32), 4.0))
+        vsc = image_scores(val_maps(tag, c))
         bins = np.linspace(min(sc.score.min(), vsc.min()), sc.score.max(), 30)
         ax.hist(vsc, bins, alpha=.6, label="val normal", color="#2a9d63", density=True)
         ax.hist(sc[sc.label == 0].score, bins, alpha=.6, label="test normal", color="#2f6fdb", density=True)
@@ -110,6 +119,9 @@ def comparison_grid(tags, names, cat, idxs, out, fname, title=""):
     """Rows = images; cols = input+GT, then heatmap overlay (+ predicted contour) per method."""
     _, _, test = list_split(cat)
     data = [load(t, cat) for t in tags]
+    # display range per method, from held-out NORMAL validation maps only:
+    # [90th pct of normal pixels, threshold + half the gap above it]
+    lows = [float(np.percentile(val_maps(t, cat), 90)) for t in tags]
     fig, axes = plt.subplots(len(idxs), 1 + len(tags), figsize=(2.3 * (1 + len(tags)), 2.3 * len(idxs)), dpi=150,
                              squeeze=False)
     for r, i in enumerate(idxs):
@@ -125,8 +137,8 @@ def comparison_grid(tags, names, cat, idxs, out, fname, title=""):
             ax = axes[r, j + 1]
             thr = met["threshold"]
             m = maps[i]
-            # common colour scale per method: [median of normal-test maps, 2*threshold]
-            hm = _norm(m, np.percentile(maps[sc.label.values == 0], 50), 1.5 * thr)
+            lo = lows[j]
+            hm = _norm(m, lo, thr + 0.5 * (thr - lo))
             ax.imshow(img); ax.imshow(hm, cmap="jet", alpha=.45, vmin=0, vmax=1)
             if gt.any():
                 ax.contour(gt, levels=[.5], colors="lime", linewidths=.8)
@@ -177,7 +189,7 @@ def main():
         if fails:
             comparison_grid(args.tags, args.names, c, fails, out, f"fail_{c}.png",
                             f"{c}: missed defects / false alarms of {args.names[-1]}")
-    print("figures ->", out)
+    print("figures -> results/figures")
 
 
 if __name__ == "__main__":

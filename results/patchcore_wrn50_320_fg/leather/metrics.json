@@ -1,0 +1,65 @@
+{
+  "method": "patchcore_wrn50_320_fg",
+  "n_fit": 208,
+  "n_val": 37,
+  "ms_per_img": 102.79461068491783,
+  "peak_gpu_MB": 4659.94775390625,
+  "fit_time_s": 514.1119022369385,
+  "bank_size": 33280,
+  "n_patches_total": 332800,
+  "feat_dim": 1536,
+  "bank_MB": 195.0,
+  "grid": [
+    40,
+    40
+  ],
+  "postproc": {
+    "sigma": 4.0,
+    "score": "max",
+    "fg_mask": true
+  },
+  "category": "leather",
+  "type": "texture",
+  "n_test": 124,
+  "n_anom": 92,
+  "threshold": 1.4487522840499878,
+  "image_auroc": 1.0,
+  "image_f1": 0.9387755102040817,
+  "image_f1_max_oracle": 1.0,
+  "pixel_auroc": 0.9938247716033027,
+  "au_pro": 0.9753804742107679,
+  "seg_iou": 0.0788450345552997,
+  "seg_dice": 0.14616563459978227,
+  "fpr_on_test_good": 0.375,
+  "recall_on_test_anom": 1.0,
+  "threshold_p95": 1.3918019533157349,
+  "image_f1_p95": 0.8975609756097561,
+  "fpr_on_test_good_p95": 0.65625,
+  "recall_on_test_anom_p95": 1.0,
+  "args": {
+    "method": "patchcore",
+    "tag": "patchcore_wrn50_320",
+    "cats": [
+      "bottle",
+      "metal_nut",
+      "screw",
+      "carpet",
+      "leather"
+    ],
+    "size": 256,
+    "sigma": 4.0,
+    "score": "max",
+    "epochs": 300,
+    "z_dim": 256,
+    "no_aug": false,
+    "backbone": "wrn50",
+    "layers": [
+      2,
+      3
+    ],
+    "coreset": 0.1,
+    "pc_input": 320,
+    "dino_arch": "vit_base_patch14_dinov2.lvd142m",
+    "dino_size": 448
+  }
+}
