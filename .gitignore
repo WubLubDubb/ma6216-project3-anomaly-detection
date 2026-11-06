@@ -1,0 +1,16 @@
+# environments / tooling
+.venv/
+__pycache__/
+*.pyc
+slides/node_modules/
+slides/package-lock.json
+
+# dataset (download separately, CC BY-NC-SA 4.0 -- do not redistribute)
+data/
+/data
+mvtec_ad/
+
+# large experiment artefacts (regenerate with src/run.py)
+results/**/maps.npz
+results/**/*.pt
+slides/

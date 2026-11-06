@@ -1,0 +1,6 @@
+category,type,resolution,train_fit,train_val,test_good,test_defect,defect_types
+bottle,object,900x900,178,31,20,63,3
+metal_nut,object,700x700,187,33,22,93,4
+screw,object,1024x1024,272,48,41,119,5
+carpet,texture,1024x1024,238,42,28,89,5
+leather,texture,1024x1024,208,37,32,92,5
