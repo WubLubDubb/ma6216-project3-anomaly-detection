@@ -1,0 +1,5 @@
+patchcore_wrn50_320 screw 48 val + 288 synthetic; {'max_abs_diff_rel': 0.0002486325101926923, 'val_score_corr': 0.9999999801534298, 'val_score_max_rel_diff': 4.632631316781044e-05}
+patchcore_wrn50_320 bottle 31 val + 186 synthetic; {'max_abs_diff_rel': 0.00039501534774899483, 'val_score_corr': 0.9999999854594107, 'val_score_max_rel_diff': 3.799252226599492e-05}
+patchcore_wrn50_320 metal_nut 33 val + 198 synthetic; {'max_abs_diff_rel': 0.00044552399776875973, 'val_score_corr': 0.9999999907189957, 'val_score_max_rel_diff': 2.6055511625600047e-05}
+patchcore_wrn50_320 carpet 42 val + 252 synthetic; {'max_abs_diff_rel': 0.0002956830139737576, 'val_score_corr': 0.9999999526425563, 'val_score_max_rel_diff': 3.0169752790243365e-05}
+patchcore_wrn50_320 leather 37 val + 222 synthetic; {'max_abs_diff_rel': 0.000338983052643016, 'val_score_corr': 0.9999999451370394, 'val_score_max_rel_diff': 3.499000013107434e-05}

@@ -1,5 +1,5 @@
 """Inference-speed benchmark on an otherwise idle GPU (model time only: images are
-pre-loaded, so disk I/O and JPEG/PNG decoding are excluded).
+pre-loaded, so disk I/O and PNG decoding are excluded; the foreground mask is timed on CPU).
 
   python src/benchmark.py --cat bottle
 """
@@ -42,10 +42,15 @@ def main():
     # PatchCore variants: patch-feature extraction + nearest-neighbour search against the memory bank
     from patchcore import PatchCore, _aggregate
     from data import load_batch
-    for name, kw in [("PatchCore WRN-50 @256", dict(backbone="wrn50")),
-                     ("PatchCore WRN-50 @320", dict(backbone="wrn50", input_size=320)),
-                     ("PatchCore DINOv2 @448", dict(backbone="dinov2", layers=(7, 11)))]:
-        pc = PatchCore(**kw).fit(fit)
+    for name, tag, kw in [("PatchCore WRN-50 @256", "patchcore_wrn50", dict(backbone="wrn50")),
+                          ("PatchCore WRN-50 @320", "patchcore_wrn50_320", dict(backbone="wrn50", input_size=320)),
+                          ("PatchCore DINOv2 @448", "patchcore_dinov2", dict(backbone="dinov2", layers=(7, 11)))]:
+        pc = PatchCore(**kw)
+        bank = os.path.join(R, tag, args.cat, "bank.pt")   # saved by synth_select.py; same size as a fresh fit
+        if os.path.exists(bank):
+            pc.bank = torch.load(bank).cuda()
+        else:
+            pc.fit(fit)
         x = torch.from_numpy(load_batch(test[:args.bs], pc.fx.input_size, True)).cuda()
 
         def f():
@@ -53,7 +58,7 @@ def main():
                 e = _aggregate(pc.fx(x))
                 q = e.permute(0, 2, 3, 1).reshape(-1, e.shape[1])
                 torch.cdist(q, pc.bank).min(1)
-        out[name] = {"ms_per_batch": bench(f), "bank_MB": pc.info["bank_MB"]}
+        out[name] = {"ms_per_batch": bench(f), "bank_MB": pc.bank.numel() * 4 / 2 ** 20}
         print(name, out[name], flush=True)
         del pc
         torch.cuda.empty_cache()
@@ -77,8 +82,19 @@ def main():
     out["RD"] = {"ms_per_batch": bench(rd)}
     for k in ("AE", "RD"):
         print(k, out[k])
-    a, b = out["PatchCore WRN-50 @320"]["ms_per_batch"], out["PatchCore DINOv2 @448"]["ms_per_batch"]
-    out["Final (fusion WRN-50@320 + DINOv2)"] = {"ms_per_batch": a + b}
+    # foreground mask (CPU, Otsu on the 256 px image) — only used on object categories
+    from data import load_image
+    from foreground import mask_from_image
+    img = load_image(test[0].path, 256)
+    t0 = time.perf_counter()
+    for _ in range(50):
+        mask_from_image(img)
+    fg_ms = (time.perf_counter() - t0) / 50 * 1000
+    out["Foreground mask (CPU)"] = {"ms_per_batch": fg_ms * args.bs}
+    d = out["PatchCore DINOv2 @448"]["ms_per_batch"]
+    out["Ours (DINOv2 @448 + fg mask)"] = {"ms_per_batch": d + fg_ms * args.bs, "bank_MB": out["PatchCore DINOv2 @448"]["bank_MB"]}
+    a = out["PatchCore WRN-50 @320"]["ms_per_batch"]
+    out["Fusion WRN-50@320 + DINOv2 (+ fg mask)"] = {"ms_per_batch": a + d + fg_ms * args.bs}
     for v in out.values():
         v["ms_per_image"] = v["ms_per_batch"] / args.bs
         v["images_per_s"] = 1000 / v["ms_per_image"]

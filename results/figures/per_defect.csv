@@ -72,11 +72,11 @@ Ours,metal_nut,bent,25,1.0,1.0
 Ours,metal_nut,color,22,1.0,1.0
 Ours,metal_nut,flip,23,1.0,1.0
 Ours,metal_nut,scratch,23,1.0,1.0
-Ours,screw,manipulated_front,24,0.9684959349593496,0.6666666666666666
-Ours,screw,scratch_head,24,0.9857723577235772,0.9583333333333334
-Ours,screw,scratch_neck,25,0.9970731707317073,0.96
-Ours,screw,thread_side,23,0.9554612937433722,0.6521739130434783
-Ours,screw,thread_top,23,0.9989395546129374,1.0
+Ours,screw,manipulated_front,24,0.9126016260162602,0.5833333333333334
+Ours,screw,scratch_head,24,0.9542682926829268,0.6666666666666666
+Ours,screw,scratch_neck,25,0.9882926829268293,0.96
+Ours,screw,thread_side,23,0.9172852598091198,0.6086956521739131
+Ours,screw,thread_top,23,0.9946977730646871,1.0
 Ours,carpet,color,19,1.0,1.0
 Ours,carpet,cut,17,1.0,1.0
 Ours,carpet,hole,17,1.0,1.0

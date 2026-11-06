@@ -22,7 +22,8 @@ from viz import val_maps  # noqa: E402
 
 R = os.path.join(os.path.dirname(__file__), "..", "results")
 CATS = ["bottle", "metal_nut", "screw", "carpet", "leather"]
-TAGS = {"ae": "AE", "rd": "RD", "patchcore_wrn50": "PatchCore", "fusion_wrn320_dinov2_fg": "Ours"}
+TAGS = {"ae": "AE", "rd": "RD", "patchcore_wrn50": "PatchCore", "patchcore_dinov2_fg": "Ours",
+        "fusion_wrn320_dinov2_fg": "Fusion WRN-50@320 + DINOv2 + fg"}
 
 
 def main():

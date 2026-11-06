@@ -1,0 +1,5 @@
+dataset: /home/lixiang/vision-project/src/../data/mvtec_ad -> synthetic: /home/lixiang/vision-project/src/../data/mvtec_synth
+bottle: 31 normal val images -> 186 synthetic (median defect area 2.93 % of the image)
+metal_nut: 33 normal val images -> 198 synthetic (median defect area 2.46 % of the image)
+carpet: 42 normal val images -> 252 synthetic (median defect area 4.78 % of the image)
+leather: 37 normal val images -> 222 synthetic (median defect area 4.67 % of the image)

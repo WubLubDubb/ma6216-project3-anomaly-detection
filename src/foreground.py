@@ -18,8 +18,12 @@ from data import OBJECTS, load_image
 
 
 def foreground_mask(path: str, size: int = 256, dilate_px: int = 12) -> np.ndarray:
-    g = load_image(path, size).mean(2)
-    g = ndi.gaussian_filter(g, 2)
+    return mask_from_image(load_image(path, size), dilate_px)
+
+
+def mask_from_image(img: np.ndarray, dilate_px: int = 12) -> np.ndarray:
+    """img: HxWx3 in [0,1] (already resized)."""
+    g = ndi.gaussian_filter(img.mean(2), 2)
     fg = g > threshold_otsu(g)
     border = np.concatenate([fg[0], fg[-1], fg[:, 0], fg[:, -1]])
     if border.mean() > 0.5:          # bright class touches the border -> it is the background
@@ -29,7 +33,8 @@ def foreground_mask(path: str, size: int = 256, dilate_px: int = 12) -> np.ndarr
     if n > 1:
         sizes = ndi.sum(fg, lab, range(1, n + 1))
         fg = lab == (1 + int(np.argmax(sizes)))
-    fg = ndi.binary_dilation(fg, iterations=dilate_px)
+    if dilate_px > 0:                # (iterations=0 would mean "dilate until nothing changes" in scipy)
+        fg = ndi.binary_dilation(fg, iterations=dilate_px)
     if fg.mean() < 0.02:             # segmentation failed -> do not mask
         fg[:] = True
     return fg

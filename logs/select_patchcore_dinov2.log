@@ -1,0 +1,6 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+patchcore_dinov2 screw 48 val + 288 synthetic; {'max_abs_diff_rel': 0.00042553190723992884, 'val_score_corr': 0.9999999612645235, 'val_score_max_rel_diff': 3.3212876587640494e-05}
+patchcore_dinov2 bottle 31 val + 186 synthetic; {'max_abs_diff_rel': 0.0004486908728722483, 'val_score_corr': 0.9999999953855692, 'val_score_max_rel_diff': 2.2286785679170862e-05}
+patchcore_dinov2 metal_nut 33 val + 198 synthetic; {'max_abs_diff_rel': 0.0003300330135971308, 'val_score_corr': 0.9999999814084156, 'val_score_max_rel_diff': 3.756029036594555e-05}
+patchcore_dinov2 carpet 42 val + 252 synthetic; {'max_abs_diff_rel': 0.00033060708665288985, 'val_score_corr': 0.9999999977582951, 'val_score_max_rel_diff': 2.0867762941634282e-05}
+patchcore_dinov2 leather 37 val + 222 synthetic; {'max_abs_diff_rel': 0.00034168007550761104, 'val_score_corr': 0.9999999968847214, 'val_score_max_rel_diff': 2.7031772333430126e-05}

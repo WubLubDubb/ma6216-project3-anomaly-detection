@@ -6,11 +6,11 @@ metal_nut,bent,0.489,1.0,0.996,1.0
 metal_nut,color,0.442,1.0,0.996,1.0
 metal_nut,flip,0.931,1.0,1.0,1.0
 metal_nut,scratch,0.526,1.0,0.992,1.0
-screw,manipulated_front,0.822,0.987,0.894,0.968
-screw,scratch_head,0.552,1.0,0.948,0.986
-screw,scratch_neck,0.354,0.999,0.996,0.997
-screw,thread_side,0.506,0.961,0.923,0.955
-screw,thread_top,0.648,0.998,0.981,0.999
+screw,manipulated_front,0.822,0.987,0.894,0.913
+screw,scratch_head,0.552,1.0,0.948,0.954
+screw,scratch_neck,0.354,0.999,0.996,0.988
+screw,thread_side,0.506,0.961,0.923,0.917
+screw,thread_top,0.648,0.998,0.981,0.995
 carpet,color,0.652,1.0,1.0,1.0
 carpet,cut,0.721,1.0,1.0,1.0
 carpet,hole,0.687,1.0,0.994,1.0

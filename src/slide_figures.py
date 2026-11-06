@@ -1,7 +1,8 @@
 """Landscape, large-font figures for the presentation (results/figures/slides/).
 
 Example images are chosen by a neutral rule (the median-scored sample of a defect type, or
-the worst miss / worst false alarm of Ours), never hand-picked.
+the worst miss / worst false alarm of Ours), never hand-picked. Ours = PatchCore with a DINOv2
+backbone + foreground mask, the variant picked without test labels (synth_select.py).
 """
 from __future__ import annotations
 
@@ -24,8 +25,9 @@ from viz import load, val_maps  # noqa: E402
 R = os.path.join(os.path.dirname(__file__), "..", "results")
 OUT = os.path.join(R, "figures", "slides")
 CATS = ["bottle", "metal_nut", "screw", "carpet", "leather"]
+FINAL = "patchcore_dinov2_fg"
 METHODS = [("ae", "AE", "#B8C0C8"), ("rd", "RD", "#3B78C4"),
-           ("patchcore_wrn50", "PatchCore", "#6F7F8F"), ("fusion_wrn320_dinov2_fg", "Ours", "#E07A1F")]
+           ("patchcore_wrn50", "PatchCore", "#6F7F8F"), (FINAL, "Ours", "#E07A1F")]
 INK, MUTED = "#16212B", "#3E4A55"
 plt.rcParams.update({"font.family": "DejaVu Sans", "text.color": INK, "axes.labelcolor": MUTED,
                      "xtick.color": MUTED, "ytick.color": MUTED, "axes.edgecolor": "#C9CFD4"})
@@ -58,7 +60,7 @@ def fig_dataset():
     for j, (c, d) in enumerate(picks):
         _, _, test = list_split(c)
         g = next(s for s in test if s.defect == "good")
-        a = test[median_sample("fusion_wrn320_dinov2_fg", c, d)]
+        a = test[median_sample(FINAL, c, d)]
         axes[0, j].imshow(load_image(g.path, 256)); axes[0, j].set_title(c, fontsize=14, fontweight="bold")
         axes[1, j].imshow(load_image(a.path, 256))
         axes[1, j].contour(load_mask(a, 256), levels=[.5], colors="red", linewidths=1.6)
@@ -92,7 +94,7 @@ def fig_localisation():
     fig, axes = plt.subplots(len(rows), 5, figsize=(10, 8.2), dpi=200)
     for j, (c, d) in enumerate(picks):
         _, _, test = list_split(c)
-        i = median_sample("fusion_wrn320_dinov2_fg", c, d)
+        i = median_sample(FINAL, c, d)
         axes[0, j].imshow(load_image(test[i].path, 256))
         axes[0, j].contour(load_mask(test[i], 256), levels=[.5], colors="lime", linewidths=1.6)
         axes[0, j].set_title(f"{c}\n{d}", fontsize=12)
@@ -106,12 +108,18 @@ def fig_localisation():
 
 
 def fig_failures():
-    tag = "fusion_wrn320_dinov2_fg"
+    tag = FINAL
     cases = []
     sc, _, met = load(tag, "screw")
-    cases.append(("screw", int(sc[sc.label == 1].score.idxmin()), "missed: screw thread_side"))
-    sc, _, met = load(tag, "carpet")
-    cases.append(("carpet", int(sc[sc.label == 0].score.idxmax()), "false alarm: normal carpet"))
+    cases.append(("screw", int(sc[sc.label == 1].score.idxmin()), "missed: screw"))
+    # the false alarm that exceeds its category's threshold by the largest factor
+    fa = []
+    for c in CATS:
+        sc, _, met = load(tag, c)
+        g = sc[(sc.label == 0) & (sc.score >= met["threshold"])]
+        fa += [(r.score / met["threshold"], c, int(i)) for i, r in g.iterrows()]
+    _, c_fa, i_fa = max(fa)
+    cases.append((c_fa, i_fa, f"false alarm: normal {c_fa}"))
     # bent: the sample whose GT lies most outside the (label-free) foreground mask
     from foreground import foreground_mask
     _, _, t_mn = list_split("metal_nut")
@@ -122,7 +130,7 @@ def fig_failures():
     fig, axes = plt.subplots(2, 3, figsize=(8.4, 5.9), dpi=200)
     for j, (c, i, title) in enumerate(cases):
         _, _, test = list_split(c)
-        if c == "screw":
+        if title == "missed: screw":
             title = f"missed: screw {test[i].defect}"
         axes[0, j].imshow(load_image(test[i].path, 256))
         gt = load_mask(test[i], 256)
@@ -137,12 +145,12 @@ def fig_failures():
 
 
 def fig_shift():
-    tag = "fusion_wrn320_dinov2_fg"
+    tag = FINAL
     fig, axes = plt.subplots(1, 3, figsize=(11, 3.4), dpi=200)
     for ax, c in zip(axes, ["screw", "carpet", "leather"]):
         sc, _, met = load(tag, c)
         v = image_scores(val_maps(tag, c))
-        hi = min(sc.score.max(), 14)
+        hi = 1.5 * met["threshold"]
         bins = np.linspace(min(v.min(), sc.score.min()), hi, 32)
         ax.hist(v, bins, alpha=.75, color="#2A9D63", density=True, label="normal (train folder, held out)")
         ax.hist(sc[sc.label == 0].score, bins, alpha=.7, color="#3B78C4", density=True, label="normal (test folder)")
@@ -151,7 +159,7 @@ def fig_shift():
         ax.axvline(met["threshold"], color=INK, ls="--", lw=1.6)
         ax.set_title(c, fontsize=14); ax.set_yticks([]); ax.tick_params(labelsize=11)
         ax.spines[["top", "right", "left"]].set_visible(False)
-        ax.set_xlabel("anomaly score (σ above normal)", fontsize=11)
+        ax.set_xlabel("anomaly score (nearest-normal distance)", fontsize=11)
     h, lab = axes[0].get_legend_handles_labels()
     fig.legend(h, lab, loc="upper center", ncol=3, fontsize=12, frameon=False)
     fig.tight_layout(rect=(0, 0, 1, 0.86)); fig.savefig(os.path.join(OUT, "score_shift.png")); plt.close(fig)

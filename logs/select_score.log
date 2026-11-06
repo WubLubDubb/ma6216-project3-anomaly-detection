@@ -1,0 +1,79 @@
+bottle     PatchCore WRN-50 @256 (baseline)         syn AUROC 0.9884  AU-PRO 0.6510
+bottle     WRN-50 @256 + fg mask                    syn AUROC 0.9880  AU-PRO 0.6591
+bottle     WRN-50 @320                              syn AUROC 0.9917  AU-PRO 0.7005
+bottle     WRN-50 @320 + fg mask                    syn AUROC 0.9918  AU-PRO 0.7057
+bottle     DINOv2                                   syn AUROC 0.9875  AU-PRO 0.7819
+bottle     DINOv2 + fg mask                         syn AUROC 0.9879  AU-PRO 0.7970
+bottle     Fusion WRN-50 + DINOv2                   syn AUROC 0.9932  AU-PRO 0.7246
+bottle     Fusion WRN-50 + DINOv2 + fg mask         syn AUROC 0.9932  AU-PRO 0.7351
+bottle     Fusion WRN-50@320 + DINOv2               syn AUROC 0.9948  AU-PRO 0.7609
+bottle     Fusion WRN-50@320 + DINOv2 + fg mask     syn AUROC 0.9950  AU-PRO 0.7687
+metal_nut  PatchCore WRN-50 @256 (baseline)         syn AUROC 0.9363  AU-PRO 0.6451
+metal_nut  WRN-50 @256 + fg mask                    syn AUROC 0.9363  AU-PRO 0.6504
+metal_nut  WRN-50 @320                              syn AUROC 0.9531  AU-PRO 0.6690
+metal_nut  WRN-50 @320 + fg mask                    syn AUROC 0.9531  AU-PRO 0.6723
+metal_nut  DINOv2                                   syn AUROC 0.9787  AU-PRO 0.6611
+metal_nut  DINOv2 + fg mask                         syn AUROC 0.9787  AU-PRO 0.6774
+metal_nut  Fusion WRN-50 + DINOv2                   syn AUROC 0.9680  AU-PRO 0.6741
+metal_nut  Fusion WRN-50 + DINOv2 + fg mask         syn AUROC 0.9679  AU-PRO 0.6802
+metal_nut  Fusion WRN-50@320 + DINOv2               syn AUROC 0.9717  AU-PRO 0.6864
+metal_nut  Fusion WRN-50@320 + DINOv2 + fg mask     syn AUROC 0.9712  AU-PRO 0.6911
+screw      PatchCore WRN-50 @256 (baseline)         syn AUROC 0.9886  AU-PRO 0.8122
+screw      WRN-50 @256 + fg mask                    syn AUROC 0.9884  AU-PRO 0.8477
+screw      WRN-50 @320                              syn AUROC 0.9902  AU-PRO 0.8451
+screw      WRN-50 @320 + fg mask                    syn AUROC 0.9899  AU-PRO 0.8588
+screw      DINOv2                                   syn AUROC 0.9866  AU-PRO 0.7270
+screw      DINOv2 + fg mask                         syn AUROC 0.9977  AU-PRO 0.8649
+screw      Fusion WRN-50 + DINOv2                   syn AUROC 0.9933  AU-PRO 0.7870
+screw      Fusion WRN-50 + DINOv2 + fg mask         syn AUROC 0.9966  AU-PRO 0.8628
+screw      Fusion WRN-50@320 + DINOv2               syn AUROC 0.9936  AU-PRO 0.8061
+screw      Fusion WRN-50@320 + DINOv2 + fg mask     syn AUROC 0.9965  AU-PRO 0.8677
+carpet     PatchCore WRN-50 @256 (baseline)         syn AUROC 0.7283  AU-PRO 0.4798
+carpet     WRN-50 @256 + fg mask                    syn AUROC 0.7283  AU-PRO 0.4798
+carpet     WRN-50 @320                              syn AUROC 0.7520  AU-PRO 0.4985
+carpet     WRN-50 @320 + fg mask                    syn AUROC 0.7520  AU-PRO 0.4985
+carpet     DINOv2                                   syn AUROC 0.9086  AU-PRO 0.4918
+carpet     DINOv2 + fg mask                         syn AUROC 0.9086  AU-PRO 0.4918
+carpet     Fusion WRN-50 + DINOv2                   syn AUROC 0.8552  AU-PRO 0.5054
+carpet     Fusion WRN-50 + DINOv2 + fg mask         syn AUROC 0.8552  AU-PRO 0.5054
+carpet     Fusion WRN-50@320 + DINOv2               syn AUROC 0.8488  AU-PRO 0.5191
+carpet     Fusion WRN-50@320 + DINOv2 + fg mask     syn AUROC 0.8488  AU-PRO 0.5191
+leather    PatchCore WRN-50 @256 (baseline)         syn AUROC 0.9736  AU-PRO 0.7050
+leather    WRN-50 @256 + fg mask                    syn AUROC 0.9736  AU-PRO 0.7050
+leather    WRN-50 @320                              syn AUROC 0.9749  AU-PRO 0.7282
+leather    WRN-50 @320 + fg mask                    syn AUROC 0.9749  AU-PRO 0.7282
+leather    DINOv2                                   syn AUROC 0.9962  AU-PRO 0.7150
+leather    DINOv2 + fg mask                         syn AUROC 0.9962  AU-PRO 0.7150
+leather    Fusion WRN-50 + DINOv2                   syn AUROC 0.9922  AU-PRO 0.7177
+leather    Fusion WRN-50 + DINOv2 + fg mask         syn AUROC 0.9922  AU-PRO 0.7177
+leather    Fusion WRN-50@320 + DINOv2               syn AUROC 0.9926  AU-PRO 0.7368
+leather    Fusion WRN-50@320 + DINOv2 + fg mask     syn AUROC 0.9926  AU-PRO 0.7368
+                                      mean_syn_image_auroc  mean_syn_auroc_cutpaste  mean_syn_auroc_scar  mean_syn_auroc_draem  mean_syn_au_pro  boot_win_frac  rank_syn  test_image_auroc  rank_test
+variant                                                                                                                                                                                              
+PatchCore WRN-50 @256 (baseline)                    0.9230                   0.9148               0.8721                0.9823           0.6586            0.0         9            0.9863          9
+WRN-50 @256 + fg mask                               0.9229                   0.9148               0.8724                0.9816           0.6684            0.0        10            0.9867          8
+WRN-50 @320                                         0.9324                   0.9168               0.8949                0.9855           0.6883            0.0         7            0.9945          3
+WRN-50 @320 + fg mask                               0.9324                   0.9168               0.8950                0.9852           0.6927            0.0         8            0.9940          4
+DINOv2                                              0.9715                   0.9768               0.9513                0.9865           0.6754            0.0         2            0.9718         10
+DINOv2 + fg mask                                    0.9738                   0.9768               0.9524                0.9923           0.7092            1.0         1            0.9907          6
+Fusion WRN-50 + DINOv2                              0.9604                   0.9606               0.9298                0.9907           0.6817            0.0         5            0.9870          7
+Fusion WRN-50 + DINOv2 + fg mask                    0.9610                   0.9606               0.9298                0.9926           0.7002            0.0         3            0.9951          2
+Fusion WRN-50@320 + DINOv2                          0.9603                   0.9568               0.9329                0.9912           0.7018            0.0         6            0.9918          5
+Fusion WRN-50@320 + DINOv2 + fg mask                0.9608                   0.9568               0.9328                0.9928           0.7167            0.0         4            0.9963          1
+{
+  "rule": "argmax mean synthetic-validation image AUROC over 5 categories (tie-break: synthetic AU-PRO)",
+  "label_free_pick": "DINOv2 + fg mask",
+  "pick_test_tag": "patchcore_dinov2_fg",
+  "previous_final_chosen_on_test": "Fusion WRN-50@320 + DINOv2 + fg mask",
+  "same_as_previous_final": false,
+  "pick_boot_win_frac": 1.0,
+  "pick_minus_previous_final_syn_auroc_ci95": [
+    0.007966938090976311,
+    0.017895347591860847
+  ],
+  "spearman_syn_vs_test_image_auroc": {
+    "rho": 0.1515151515151515,
+    "p": 0.6760651759978538
+  },
+  "n_bootstrap": 1000
+}

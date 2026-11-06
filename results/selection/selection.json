@@ -1,0 +1,17 @@
+{
+  "rule": "argmax mean synthetic-validation image AUROC over 5 categories (tie-break: synthetic AU-PRO)",
+  "label_free_pick": "DINOv2 + fg mask",
+  "pick_test_tag": "patchcore_dinov2_fg",
+  "previous_final_chosen_on_test": "Fusion WRN-50@320 + DINOv2 + fg mask",
+  "same_as_previous_final": false,
+  "pick_boot_win_frac": 1.0,
+  "pick_minus_previous_final_syn_auroc_ci95": [
+    0.007966938090976311,
+    0.017895347591860847
+  ],
+  "spearman_syn_vs_test_image_auroc": {
+    "rho": 0.1515151515151515,
+    "p": 0.6760651759978538
+  },
+  "n_bootstrap": 1000
+}

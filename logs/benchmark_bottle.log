@@ -1,0 +1,52 @@
+PatchCore WRN-50 @256 {'ms_per_batch': 11.642448649945436, 'bank_MB': 106.798828125}
+PatchCore WRN-50 @320 {'ms_per_batch': 24.878118800006632, 'bank_MB': 166.875}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+PatchCore DINOv2 @448 {'ms_per_batch': 38.68342500009021, 'bank_MB': 106.798828125}
+AE {'ms_per_batch': 3.079247500136262}
+RD {'ms_per_batch': 18.06608739989315}
+{
+ "PatchCore WRN-50 @256": {
+  "ms_per_batch": 11.642448649945436,
+  "bank_MB": 106.798828125,
+  "ms_per_image": 11.642448649945436,
+  "images_per_s": 85.89258411757622
+ },
+ "PatchCore WRN-50 @320": {
+  "ms_per_batch": 24.878118800006632,
+  "bank_MB": 166.875,
+  "ms_per_image": 24.878118800006632,
+  "images_per_s": 40.19596529942342
+ },
+ "PatchCore DINOv2 @448": {
+  "ms_per_batch": 38.68342500009021,
+  "bank_MB": 106.798828125,
+  "ms_per_image": 38.68342500009021,
+  "images_per_s": 25.850865066825598
+ },
+ "AE": {
+  "ms_per_batch": 3.079247500136262,
+  "ms_per_image": 3.079247500136262,
+  "images_per_s": 324.754668131012
+ },
+ "RD": {
+  "ms_per_batch": 18.06608739989315,
+  "ms_per_image": 18.06608739989315,
+  "images_per_s": 55.35232825265278
+ },
+ "Foreground mask (CPU)": {
+  "ms_per_batch": 7.947666320033021,
+  "ms_per_image": 7.947666320033021,
+  "images_per_s": 125.82309821933303
+ },
+ "Ours (DINOv2 @448 + fg mask)": {
+  "ms_per_batch": 46.63109132012323,
+  "bank_MB": 106.798828125,
+  "ms_per_image": 46.63109132012323,
+  "images_per_s": 21.444919509495993
+ },
+ "Fusion WRN-50@320 + DINOv2 (+ fg mask)": {
+  "ms_per_batch": 71.50921012012986,
+  "ms_per_image": 71.50921012012986,
+  "images_per_s": 13.984212639463902
+ }
+}

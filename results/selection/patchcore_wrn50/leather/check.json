@@ -1,0 +1,5 @@
+{
+  "max_abs_diff_rel": 0.00033467201865278184,
+  "val_score_corr": 0.9999999207151171,
+  "val_score_max_rel_diff": 4.2374260374344885e-05
+}
