@@ -28,6 +28,8 @@ def main():
     ap.add_argument("--out_suffix", default="", help="'' = overwrite metrics in place; otherwise write a new tag")
     ap.add_argument("--fg", action="store_true", help="suppress background on object categories (foreground.py)")
     args = ap.parse_args()
+    if args.fg and not args.out_suffix:
+        ap.error("--fg changes the maps: write it to a new tag with --out_suffix (in place would leave maps.npz stale)")
     fg_cache = {}
     for tag in args.tags:
         src = os.path.join(RESULTS, tag)
@@ -38,6 +40,9 @@ def main():
             z = np.load(os.path.join(src, cat, "maps.npz"))
             _, val, test = list_split(cat)
             vr, tr = z["val_raw"].astype(np.float32), z["test_raw"].astype(np.float32)
+            if "fused_from" in old:
+                # fuse.py stores maps that are already smoothed: never smooth them a second time
+                ap.error(f"{tag} is a fused tag; re-run fuse.py on its source tags instead")
             if args.fg:
                 # mask the raw maps; the usual Gaussian smoothing is applied afterwards in evaluate()
                 import foreground as FG

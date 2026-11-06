@@ -68,6 +68,7 @@ def main():
         with torch.no_grad():
             ae(x)
     out["AE"] = {"ms_per_batch": bench(ae_fwd)}
+    x = torch.from_numpy(load_batch(test[:args.bs], 256, True)).cuda()  # RD reads ImageNet-normalised input
     t, o, s = Teacher().cuda().eval(), OCBE().cuda().eval(), Student().cuda().eval()
 
     def rd():
@@ -82,7 +83,7 @@ def main():
         v["ms_per_image"] = v["ms_per_batch"] / args.bs
         v["images_per_s"] = 1000 / v["ms_per_image"]
     os.makedirs(os.path.join(R, "figures"), exist_ok=True)
-    with open(os.path.join(R, "figures", f"benchmark_bs{args.bs}.json"), "w") as fh:
+    with open(os.path.join(R, "figures", f"benchmark_{args.cat}_bs{args.bs}.json"), "w") as fh:
         json.dump({"gpu": torch.cuda.get_device_name(), "batch_size": args.bs, "category": args.cat, **out}, fh, indent=2)
     print(json.dumps(out, indent=1))
 

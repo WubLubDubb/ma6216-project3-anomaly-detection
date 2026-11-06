@@ -3,7 +3,7 @@
 Decision rule (label-free): threshold = mean + 3*std of image scores of the
 held-out NORMAL validation images (15 % of train/good). The same value is used
 as pixel threshold for the binary localisation overlay, so "an image is
-anomalous" <=> "at least one pixel of its map exceeds the threshold".
+anomalous" <=> "at least one pixel of its map exceeds the threshold" (with the default --score max).
 
 Example:
   python src/run.py --method patchcore --tag patchcore_wrn50 --cats bottle carpet

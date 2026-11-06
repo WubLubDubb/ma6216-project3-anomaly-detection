@@ -1,0 +1,38 @@
+{
+  "gpu": "NVIDIA L4",
+  "batch_size": 1,
+  "category": "screw",
+  "PatchCore WRN-50 @256": {
+    "ms_per_batch": 17.596633250013838,
+    "bank_MB": 163.1953125,
+    "ms_per_image": 17.596633250013838,
+    "images_per_s": 56.829052796176995
+  },
+  "PatchCore WRN-50 @320": {
+    "ms_per_batch": 39.76568465004675,
+    "bank_MB": 255.0,
+    "ms_per_image": 39.76568465004675,
+    "images_per_s": 25.14731001868528
+  },
+  "PatchCore DINOv2 @448": {
+    "ms_per_batch": 48.10900290003701,
+    "bank_MB": 163.1953125,
+    "ms_per_image": 48.10900290003701,
+    "images_per_s": 20.78613024006845
+  },
+  "AE": {
+    "ms_per_batch": 3.0368882000402664,
+    "ms_per_image": 3.0368882000402664,
+    "images_per_s": 329.28443002503053
+  },
+  "RD": {
+    "ms_per_batch": 17.50487819999762,
+    "ms_per_image": 17.50487819999762,
+    "images_per_s": 57.12693276552681
+  },
+  "Final (fusion WRN-50@320 + DINOv2)": {
+    "ms_per_batch": 87.87468755008376,
+    "ms_per_image": 87.87468755008376,
+    "images_per_s": 11.379841315851674
+  }
+}

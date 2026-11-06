@@ -2,20 +2,25 @@
 
 Unsupervised anomaly detection and localisation on MVTec AD. All models learn only from
 **defect-free** images, then score and localise defects on unseen test images. No test label or
-mask is ever used for training, tuning or setting the decision threshold.
+mask is used to train a model, fit a parameter or set the decision threshold. The one exception is
+the *choice* among our enhancement variants, which was made after seeing their test results (see
+the model-selection caveat under Protocol).
 
 ## Headline results (5 categories, mean)
 
 | Method | Principle | Image AUROC | Image F1 | Pixel AUROC | AU-PRO | ms / image |
 |---|---|---|---|---|---|---|
-| AE (SSIM autoencoder) | reconstruction | 0.683 | 0.186 | 0.866 | 0.641 | 2.9 |
-| RD4AD (Reverse Distillation) | knowledge distillation | 0.995 | 0.953 | 0.989 | **0.966** | 17.6 |
-| PatchCore (WRN-50, 256) | feature memory bank | 0.986 | 0.936 | 0.990 | 0.950 | 11.7 |
-| **Ours** — PatchCore enhanced (bonus) | memory bank + multi-backbone fusion | **0.996** | **0.962** | **0.993** | 0.965 | 66.4 |
-| *Extra:* ensemble Ours + RD | cross-principle ensemble | *0.998* | *0.966* | *0.992* | *0.967* | ~84 |
+| AE (SSIM autoencoder) | reconstruction | 0.683 | 0.186 | 0.866 | 0.641 | 3 |
+| RD4AD (Reverse Distillation) | knowledge distillation | 0.995 | 0.953 | 0.989 | **0.966** | 18 |
+| PatchCore (WRN-50, 256) | feature memory bank | 0.986 | 0.936 | 0.990 | 0.950 | 12–18 |
+| **Ours** — PatchCore enhanced (bonus) | memory bank + multi-backbone fusion | **0.996** | **0.962** | **0.993** | 0.965 | 66–88 |
+| *Extra:* ensemble Ours + RD | cross-principle ensemble | *0.998* | *0.966* | *0.992* | *0.967* | *84–105* |
 
 Image F1 uses our label-free threshold (mean + 3σ of held-out normal scores). Timing: NVIDIA L4,
-batch size 1, model time only (`src/benchmark.py`).
+batch size 1, model time only (feature extraction + nearest-neighbour search or forward pass; no
+image loading, smoothing or masking), measured on bottle (smallest memory bank) and screw (largest),
+`src/benchmark.py` → `results/figures/benchmark_<category>_bs1.json`. The `ms_per_img` column in the
+per-run CSVs is end-to-end on a shared GPU (includes disk I/O) and is not comparable.
 
 **Ours = PatchCore with (i) WRN-50 at 320 px input, (ii) a DINOv2 ViT-B/14 branch, (iii) label-free
 score fusion of both branches, (iv) foreground masking of the background on object categories.**
@@ -58,6 +63,13 @@ the five screw types (0.955 – 0.999, `thread_side` 0.955 is the hardest). See
 | C | **Reverse Distillation** (Deng & Li, CVPR 2022) — `src/rd.py` | Frozen WRN-50 teacher; trainable one-class bottleneck + reverse student decoder learn to reproduce teacher layer1–3 features of normal images (200 epochs) | Σ over scales of (1 − cosine similarity) between teacher and student features |
 | Bonus | **Ours** (`src/fuse.py`, `src/foreground.py`) | Two PatchCore memory banks: WRN-50 @320 px and DINOv2 ViT-B/14 (blocks 7+11, 448 px) | Each branch's map is standardised by its own validation-normal score statistics, then averaged; background suppressed on object categories |
 
+Why these methods suit our categories: the AE was expected to work on centred, aligned objects
+(bottle) but to struggle with stochastic textures, which it cannot reproduce. PatchCore compares
+*local* patch features, which suits both textures (local statistics) and small local defects (screw,
+leather), and it needs no training per product. RD compares teacher and student features at three
+scales, which covers defects of very different sizes (0.2 % to 48 % of the image), and it is fast at
+inference.
+
 ### Literature considered
 
 | Family | Examples | Idea | Why (not) chosen |
@@ -83,9 +95,22 @@ the five screw types (0.955 – 0.999, `thread_side` 0.955 is the hardest). See
   textures only** (a flipped metal nut *is* a defect). Maps are Gaussian-smoothed (σ = 4); image score
   = max of the map.
 * Metrics: image AUROC, image F1, pixel AUROC, AU-PRO (normalised area under the per-region-overlap
-  curve up to FPR 0.3, reference-implementation definition), at 256×256.
-* Every enhancement was applied uniformly (no per-category choices). All variants we tried are reported
-  in the ablation below, including the ones that did not help.
+  curve up to FPR 0.3, reference-implementation definition), at 256×256. Pixel AUROC is computed on a
+  uniform random sample of 4 M pixels per category (difference to the exact value ≤ 3·10⁻⁴). Our
+  AU-PRO was checked against an independent threshold-sweep implementation (agreement to 10⁻⁴).
+* No per-category tuning: every setting is the same for all categories. The only type-level rules come
+  from the dataset metadata: the foreground mask is applied to object categories, and AE flip/rotation
+  augmentation to textures.
+* The secondary 95th-percentile rule was added after the first runs. It is label-free and does not
+  change the primary rule (mean + 3σ, σ = 4 smoothing, image score = max), which was fixed from the
+  first commit.
+* **Model-selection caveat.** All hyperparameters (smoothing σ = 4, 10 % coreset, 320 px input, DINOv2
+  blocks 7 + 11, 12 px mask dilation, AE/RD epochs) were fixed in advance and never searched. However,
+  the ideas for the enhancements came from inspecting test failure cases (e.g. background false alarms
+  on screw), and the final variant ("Ours") is the best of the ten variants in the ablation, which
+  were compared on the test set. Its numbers are therefore somewhat optimistic; the AE, RD and
+  PatchCore baselines are not affected. A stricter protocol would rank the variants on held-out normal
+  images with synthetic defects. All variants are reported below, including those that did not help.
 
 ## Dataset analysis
 
@@ -134,7 +159,7 @@ Findings:
 3. **The two backbones are complementary**; label-free fusion plus masking gives the best result.
 4. Foreground masking barely changes WRN-50 alone and lowers metal_nut AU-PRO (0.943 → 0.919),
    because part of the `bent` ground truth marks where material is *missing*, i.e. background.
-5. Cost: the final model runs two backbones (66 ms/image vs 12 ms, still ~15 images/s on one L4).
+5. Cost: the final model runs two backbones (66–88 ms/image vs 12–18 ms, still 11–15 images/s on one L4).
 
 Figure: `results/figures/ablation.png`.
 
@@ -155,10 +180,16 @@ methods' maps side by side), `qual_<category>.png` (one example per defect type)
 * **False alarms (Ours) are concentrated on carpet (8/28) and leather (10/32) although their image
   AUROC is 1.000**, i.e. a perfect threshold exists. The scores of `test/good` texture images are
   significantly higher than those of our held-out `train/good` validation images (Mann-Whitney
-  p < 3·10⁻⁴ for carpet and leather for Ours, PatchCore and RD; no significant shift for bottle/metal_nut),
+  p < 3·10⁻⁴ for carpet and leather for Ours, PatchCore and RD; no significant shift for Ours on
+  bottle, metal_nut or screw; `src/score_shift_test.py` → `results/figures/score_shift_test.csv`),
   so a threshold calibrated on training-folder normals is too low for the test normals. This is a
   threshold-calibration problem, not a ranking problem; on a real line the threshold should be
   re-calibrated on a batch of normal parts from the actual production conditions.
+* **Border artefacts of RD and AE on textures.** For RD, the maximum of the anomaly map lies within
+  8 px of the image border on 50 % (carpet) and 72 % (leather) of the normal test images, and 3 of its
+  4 carpet false alarms are such border responses. AE on leather: 69 % of normal images, and 21 of its
+  28 false alarms. PatchCore and Ours: 0 %. So part of RD's and AE's texture false alarms comes from
+  border effects of the convolutional decoders, not only from the acquisition shift.
 * **metal_nut `bent`**: localisation is penalised when the ground truth includes the region where a
   bent tab *should* be (now background) — the foreground mask removes exactly that region.
 
@@ -167,8 +198,10 @@ methods' maps side by side), `qual_<category>.png` (one example per defect type)
 * Feature-based methods (PatchCore, RD) clearly beat reconstruction: pretrained features describe
   local appearance robustly, while an AE either reproduces defects or fails to reproduce normal texture.
 * **PatchCore**: no training (fit = feature extraction + coreset, minutes per product), easy to explain
-  ("this patch has no similar normal patch"), memory bank 100–170 MB per backbone and product. Our enhanced version
-  is the most accurate single system (image AUROC 0.996, 96 % of defects caught at 14 % false alarms).
+  ("this patch has no similar normal patch"), memory bank 107–255 MB per backbone and product (Ours
+  keeps two banks: 270–420 MB). Our enhanced version has the highest image and pixel AUROC (0.996 /
+  0.993) and catches 96 % of defects at 14 % false alarms. At our threshold, the single-backbone
+  DINOv2 + mask variant has the best F1 and accuracy (0.969, 94.7 %, 428/456 caught, 4 false alarms).
 * **RD**: needs 6–17 min of GPU training per product (measured on a shared L4), but is fast at inference (18 ms) and has the fewest
   false alarms at our threshold (3.5 %) — attractive when false rejects are expensive.
 * **AE**: fastest (3 ms) but not reliable enough for inspection on these categories.
@@ -207,8 +240,9 @@ $P src/fuse.py --tags rd_fg patchcore_wrn50_320_fg patchcore_dinov2_fg --out fus
 $P src/viz.py --tags ae rd patchcore_wrn50 fusion_wrn320_dinov2_fg --names AE RD PatchCore Ours
 $P src/ablation.py
 $P src/ae_recon_fig.py
-$P src/benchmark.py --bs 1
+$P src/benchmark.py --bs 1 --cat bottle && $P src/benchmark.py --bs 1 --cat screw
 $P src/slide_figures.py                                                        # presentation figures
+$P src/score_shift_test.py                                                     # normal-score shift + border artefacts
 ```
 
 Each run writes `results/<tag>/<category>/{metrics.json,scores.csv}` and `results/<tag>/summary.csv`.
@@ -233,6 +267,7 @@ src/ablation.py          bonus ablation table + chart
 src/ae_recon_fig.py      AE input / reconstruction / residual figure
 src/benchmark.py         inference speed on an idle GPU
 src/slide_figures.py     landscape figures for the presentation (results/figures/slides/)
+src/score_shift_test.py  Mann-Whitney test of val-normal vs test-normal scores; border-artefact counts
 ```
 
 ## References
@@ -249,3 +284,8 @@ src/slide_figures.py     landscape figures for the presentation (results/figures
 * M. Rudolph, B. Wandt, B. Rosenhahn. *Same Same But DifferNet.* WACV 2021.
 * K. Batzner, L. Heckler, R. König. *EfficientAD: Accurate Visual Anomaly Detection at Millisecond-Level Latencies.* WACV 2024.
 * J. Jeong et al. *WinCLIP: Zero-/Few-Shot Anomaly Classification and Segmentation.* CVPR 2023.
+* N. Cohen, Y. Hoshen. *Sub-Image Anomaly Detection with Deep Pyramid Correspondences (SPADE).* arXiv 2020.
+* G. Wang, S. Han, E. Ding, D. Huang. *Student-Teacher Feature Pyramid Matching for Anomaly Detection (STFPM).* BMVC 2021.
+* D. Gudovskiy, S. Ishizaka, K. Kozuka. *CFLOW-AD: Real-Time Unsupervised Anomaly Detection with Localization via Conditional Normalizing Flows.* WACV 2022.
+* J. Yu et al. *FastFlow: Unsupervised Anomaly Detection and Localization via 2D Normalizing Flows.* arXiv 2021.
+* Z. Liu, Y. Zhou, Y. Xu, Z. Wang. *SimpleNet: A Simple Network for Image Anomaly Detection and Localization.* CVPR 2023.
