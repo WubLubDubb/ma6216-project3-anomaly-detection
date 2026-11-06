@@ -23,13 +23,13 @@ from data import load_batch
 
 
 class WRN50Features(torch.nn.Module):
-    def __init__(self, layers=(2, 3)):
+    def __init__(self, layers=(2, 3), input_size=256):
         super().__init__()
         m = torchvision.models.wide_resnet50_2(weights="IMAGENET1K_V1")
         self.stem = torch.nn.Sequential(m.conv1, m.bn1, m.relu, m.maxpool)
         self.blocks = torch.nn.ModuleList([m.layer1, m.layer2, m.layer3, m.layer4])
         self.layers = tuple(layers)
-        self.input_size = 256
+        self.input_size = input_size
 
     @torch.no_grad()
     def forward(self, x):
@@ -93,10 +93,10 @@ def greedy_coreset(feats, ratio, proj_dim=128, device="cuda", seed=0):
 
 class PatchCore:
     def __init__(self, backbone="wrn50", layers=(2, 3), coreset=0.1, out_size=256, device="cuda",
-                 dino_arch="vit_base_patch14_dinov2.lvd142m", dino_size=448):
+                 dino_arch="vit_base_patch14_dinov2.lvd142m", dino_size=448, input_size=256):
         self.device = device
         if backbone == "wrn50":
-            self.fx = WRN50Features(layers).to(device).eval()
+            self.fx = WRN50Features(layers, input_size).to(device).eval()
         else:
             self.fx = DINOv2Features(dino_arch, layers, dino_size).to(device).eval()
         self.coreset = coreset

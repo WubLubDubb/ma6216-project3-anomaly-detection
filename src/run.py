@@ -49,15 +49,23 @@ def build(args, cat):
         from ae import AEDetector
         return AEDetector(size=args.size, epochs=args.epochs, z_dim=args.z_dim,
                           augment=(cat in TEXTURES) and not args.no_aug)
+    if args.method == "rd":
+        from rd import RDDetector
+        return RDDetector(size=args.size, epochs=args.epochs)
     from patchcore import PatchCore
     return PatchCore(backbone=args.backbone, layers=tuple(args.layers), coreset=args.coreset,
-                     out_size=args.size, dino_arch=args.dino_arch, dino_size=args.dino_size)
+                     out_size=args.size, dino_arch=args.dino_arch, dino_size=args.dino_size,
+                     input_size=args.pc_input)
 
 
 def evaluate(cat, test, val_maps, test_maps, sigma, score_mode, size):
     vm, tm = smooth(val_maps, sigma), smooth(test_maps, sigma)
     vs, ts = image_scores(vm, score_mode), image_scores(tm, score_mode)
+    # Both rules use ONLY held-out normal validation images:
+    #   primary  : mean + 3*std  (conservative, ~0.1 % false alarms under a Gaussian assumption)
+    #   secondary: 95th percentile (an explicit 5 % false-alarm budget, common on a production line)
     thr = float(vs.mean() + 3 * vs.std())
+    thr95 = float(np.percentile(vs, 95))
     labels = np.array([s.label for s in test])
     masks = np.stack([load_mask(s, size) for s in test])
     anom = labels == 1
@@ -74,13 +82,17 @@ def evaluate(cat, test, val_maps, test_maps, sigma, score_mode, size):
         "seg_iou": iou, "seg_dice": dice,
         "fpr_on_test_good": float((ts[~anom] >= thr).mean()),
         "recall_on_test_anom": float((ts[anom] >= thr).mean()),
+        "threshold_p95": thr95,
+        "image_f1_p95": M.f1_at(labels, ts, thr95),
+        "fpr_on_test_good_p95": float((ts[~anom] >= thr95).mean()),
+        "recall_on_test_anom_p95": float((ts[anom] >= thr95).mean()),
     }
     return res, ts, tm
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--method", choices=["ae", "patchcore"], required=True)
+    ap.add_argument("--method", choices=["ae", "rd", "patchcore"], required=True)
     ap.add_argument("--tag", required=True)
     ap.add_argument("--cats", nargs="+", default=["bottle", "metal_nut", "screw", "carpet", "leather"])
     ap.add_argument("--size", type=int, default=256)
@@ -94,6 +106,7 @@ def main():
     ap.add_argument("--backbone", default="wrn50")
     ap.add_argument("--layers", type=int, nargs="+", default=[2, 3])
     ap.add_argument("--coreset", type=float, default=0.1)
+    ap.add_argument("--pc_input", type=int, default=256, help="WRN-50 input resolution (maps are evaluated at --size)")
     ap.add_argument("--dino_arch", default="vit_base_patch14_dinov2.lvd142m")
     ap.add_argument("--dino_size", type=int, default=448)
     args = ap.parse_args()
