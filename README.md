@@ -122,7 +122,7 @@ How the characteristics matter (see `results/dataset/`):
 | Fusion WRN-50 + DINOv2 | 0.987 | 0.958 | 0.991 | 0.957 | 0.936 |
 | Fusion + foreground mask | 0.995 | 0.966 | 0.992 | 0.962 | 0.976 |
 | Fusion WRN-50@320 + DINOv2 | 0.992 | 0.963 | 0.992 | 0.963 | 0.959 |
-| **Fusion WRN-50@320 + DINOv2 + fg mask (final)** | **0.996** | 0.962 | **0.993** | **0.966** | **0.981** |
+| **Fusion WRN-50@320 + DINOv2 + fg mask (final)** | **0.996** | 0.962 | **0.993** | **0.965** | **0.981** |
 | *Extra: + RD (3-model ensemble)* | *0.998* | *0.966* | *0.992* | *0.967* | *0.988* |
 
 Findings:
@@ -208,6 +208,7 @@ $P src/viz.py --tags ae rd patchcore_wrn50 fusion_wrn320_dinov2_fg --names AE RD
 $P src/ablation.py
 $P src/ae_recon_fig.py
 $P src/benchmark.py --bs 1
+$P src/slide_figures.py                                                        # presentation figures
 ```
 
 Each run writes `results/<tag>/<category>/{metrics.json,scores.csv}` and `results/<tag>/summary.csv`.
@@ -231,6 +232,7 @@ src/viz.py               result tables, bar charts, histograms, heatmap overlays
 src/ablation.py          bonus ablation table + chart
 src/ae_recon_fig.py      AE input / reconstruction / residual figure
 src/benchmark.py         inference speed on an idle GPU
+src/slide_figures.py     landscape figures for the presentation (results/figures/slides/)
 ```
 
 ## References
